@@ -1,15 +1,29 @@
 "use client";
 import React, { createContext, useState } from "react";
+import { Todo } from "@/types/todo";
 
-export const TodoContext = createContext({
-  todos: [] as string[],
-  setTodos: (todo: string[]) => {
+interface TodoContextProps {
+  todosFromSupabase: Todo[];
+  children: React.ReactNode;
+}
+
+interface TodoContextType {
+  todos: Todo[];
+  setTodos: (todo: Todo[]) => void;
+}
+
+export const TodoContext = createContext<TodoContextType>({
+  todos: [],
+  setTodos: (todo: Todo[]) => {
     console.log(todo);
   },
 });
 
-const TodoContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [todos, setTodos] = useState<string[]>([]);
+const TodoContextProvider = ({
+  children,
+  todosFromSupabase,
+}: TodoContextProps) => {
+  const [todos, setTodos] = useState<Todo[]>(todosFromSupabase);
   return (
     <TodoContext.Provider value={{ todos, setTodos }}>
       {children}

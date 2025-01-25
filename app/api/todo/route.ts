@@ -6,11 +6,10 @@ const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env
 export async function POST(req: NextRequest) {
   const { todo } = await req.json();
 
-  // Insert the todo into the todos table
   const { data, error } = await supabase
     .from('todos')
-    .insert([{ todo }]);
-  console.log(data, error);
+    .insert([{ todo }])
+    .select();
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
@@ -19,14 +18,14 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const { todo } = await req.json();
+  const { id, todo } = await req.json();
 
   // Delete the todo from the todos table
   const { data, error } = await supabase
     .from('todos')
     .delete()
+    .eq('id', id)
     .eq('todo', todo);
-  console.log(data, error);
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

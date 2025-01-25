@@ -28,8 +28,9 @@ const TodoForm = () => {
       method: "POST",
       body: JSON.stringify({ todo: data.todo }),
     });
+    const { data: responseData } = await response.json();
     if (response.ok) {
-      setTodos([...todos, data.todo]);
+      setTodos([...todos, responseData[0]]);
       todoForm.reset();
     }
   };
