@@ -3,7 +3,9 @@ import React, { createContext, useState } from "react";
 
 export const TodoContext = createContext({
   todos: [] as string[],
-  setTodos: (todos: string[]) => {},
+  setTodos: (todo: string[]) => {
+    console.log(todo);
+  },
 });
 
 const TodoContextProvider = ({ children }: { children: React.ReactNode }) => {
